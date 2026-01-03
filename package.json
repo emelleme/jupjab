@@ -1,0 +1,38 @@
+{
+  "name": "jupiter-perps-bot",
+  "version": "0.2.0",
+  "description": "High-performance trading bot for Jupiter Perpetuals on Solana",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "@solana/kit": "5.1.0",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "bs58": "^6.0.0",
+    "decimal.js": "^10.6.0",
+    "dotenv": "^17.2.3"
+  },
+  "keywords": [
+    "solana",
+    "jupiter",
+    "perpetuals",
+    "trading-bot",
+    "defi",
+    "bun"
+  ],
+  "author": "",
+  "license": "MIT"
+}

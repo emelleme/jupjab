@@ -13,6 +13,22 @@ import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import bs58 from "bs58";
 import dotenv from "dotenv";
 
+function loadKeypairFromEnv(envKey: string): Keypair {
+  const value = process.env[envKey];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${envKey}`);
+  }
+
+  try {
+    return Keypair.fromSecretKey(bs58.decode(value));
+  } catch (error) {
+    throw new Error(
+      `Failed to load keypair from ${envKey}: ${error}\n` +
+        `Make sure your ${envKey} is base58-encoded`
+    );
+  }
+}
+
 // Load environment variables
 dotenv.config();
 
@@ -67,21 +83,36 @@ export const connection = new Connection(RPC_URL, COMMITMENT);
  * User Wallet Keypair
  * Loaded from base58-encoded PRIVATE_KEY environment variable
  */
-export const keypair = (() => {
-  try {
-    return Keypair.fromSecretKey(bs58.decode(process.env.PRIVATE_KEY!));
-  } catch (error) {
-    throw new Error(
-      `Failed to load keypair from PRIVATE_KEY: ${error}\n` +
-        `Make sure your PRIVATE_KEY is base58-encoded`
-    );
-  }
-})();
+export const keypair = loadKeypairFromEnv("PRIVATE_KEY");
+
+/**
+ * Keeper keypair.
+ *
+ * The Jupiter "instant" instructions require both `keeper` and `apiKeeper`
+ * signers. In production, these are typically managed by an API/keeper service.
+ *
+ * If you do not have keeper keys, this defaults to the user keypair.
+ */
+export const keeperKeypair = process.env.KEEPER_PRIVATE_KEY
+  ? loadKeypairFromEnv("KEEPER_PRIVATE_KEY")
+  : keypair;
+
+/**
+ * API keeper keypair.
+ *
+ * If you do not have API keeper keys, this defaults to the user keypair.
+ */
+export const apiKeeperKeypair = process.env.API_KEEPER_PRIVATE_KEY
+  ? loadKeypairFromEnv("API_KEEPER_PRIVATE_KEY")
+  : keypair;
 
 /**
  * User's public key (wallet address)
  */
 export const wallet = keypair.publicKey;
+
+export const keeper = keeperKeypair.publicKey;
+export const apiKeeper = apiKeeperKeypair.publicKey;
 
 /**
  * Slippage tolerance (percentage)
@@ -97,5 +128,7 @@ export const SLIPPAGE_TOLERANCE = parseFloat(
 console.log("✅ Configuration loaded:");
 console.log(`   📡 RPC: ${RPC_URL}`);
 console.log(`   🔑 Wallet: ${wallet.toBase58()}`);
+console.log(`   🧾 Keeper: ${keeper.toBase58()}`);
+console.log(`   🧾 API Keeper: ${apiKeeper.toBase58()}`);
 console.log(`   📊 Commitment: ${COMMITMENT}`);
 console.log(`   💹 Slippage: ${SLIPPAGE_TOLERANCE}%`);

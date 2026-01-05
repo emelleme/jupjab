@@ -1,0 +1,25 @@
+# Bun Configuration File
+# https://bun.sh/docs/runtime/configuration
+
+[run]
+# Preload environment variables
+preload = [".env"]
+
+# Hot reload during development
+hot = true
+
+# Enable TypeScript decorators
+experimentalDecorators = true
+
+[install]
+# Use exact versions for reproducibility
+exact = true
+
+# Package manager behavior
+production = false
+optional = true
+dev = true
+
+[test]
+# Test configuration (for future test suite)
+preload = [".env.test"]

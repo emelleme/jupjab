@@ -120,7 +120,14 @@ if (import.meta.main) {
 }
 
 // Export for use as a module
-export { openPosition } from "./actions/position";
+export {
+  openPosition,
+  closePosition,
+  createLimitOrder,
+  createTPSL,
+  getPositionState,
+} from "./actions/position";
+export { monitorPosition } from "./actions/monitor";
 export * from "./utils/types";
 export * from "./utils/math";
 export * from "./accounts";

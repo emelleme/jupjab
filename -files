@@ -1,0 +1,271 @@
+[33mcommit de529a5f64cfa309592c9c62c6aa2d3d8e905923[m[33m ([m[1;34mgrafted[m[33m, [m[1;36mHEAD[m[33m -> [m[1;32mfix-tsconfig-jsx-v0-florida-tennis[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: cto-new[bot] <140088366+cto-new[bot]@users.noreply.github.com>
+Date:   Mon Jan 5 09:05:19 2026 +0000
+
+    Merge pull request #3 from emelleme/feat/jupjab-phase3-core-trading
+    
+    Phase 3: Core Trading Logic – implement account resolution, transaction construction, and trading helpers
+
+.env.example
+.gitignore
+PHASE2_COMPLETION.md
+PLAN.md
+README.md
+bun.lock
+bunfig.toml
+jup-perps-client-js/.npmignore
+jup-perps-client-js/CHANGELOG.md
+jup-perps-client-js/LICENSE
+jup-perps-client-js/README.md
+jup-perps-client-js/example.ts
+jup-perps-client-js/package.json
+jup-perps-client-js/src/accounts/custody.ts
+jup-perps-client-js/src/accounts/index.ts
+jup-perps-client-js/src/accounts/perpetuals.ts
+jup-perps-client-js/src/accounts/pool.ts
+jup-perps-client-js/src/accounts/position.ts
+jup-perps-client-js/src/accounts/positionRequest.ts
+jup-perps-client-js/src/accounts/tokenLedger.ts
+jup-perps-client-js/src/errors/index.ts
+jup-perps-client-js/src/errors/perpetuals.ts
+jup-perps-client-js/src/index.ts
+jup-perps-client-js/src/instructions/addCustody.ts
+jup-perps-client-js/src/instructions/addLiquidity2.ts
+jup-perps-client-js/src/instructions/addPool.ts
+jup-perps-client-js/src/instructions/closePositionRequest.ts
+jup-perps-client-js/src/instructions/createDecreasePositionMarketRequest.ts
+jup-perps-client-js/src/instructions/createDecreasePositionRequest2.ts
+jup-perps-client-js/src/instructions/createIncreasePositionMarketRequest.ts
+jup-perps-client-js/src/instructions/createTokenLedger.ts
+jup-perps-client-js/src/instructions/createTokenMetadata.ts
+jup-perps-client-js/src/instructions/decreasePosition4.ts
+jup-perps-client-js/src/instructions/decreasePositionWithInternalSwap.ts
+jup-perps-client-js/src/instructions/getAddLiquidityAmountAndFee2.ts
+jup-perps-client-js/src/instructions/getAssetsUnderManagement2.ts
+jup-perps-client-js/src/instructions/getRemoveLiquidityAmountAndFee2.ts
+jup-perps-client-js/src/instructions/increasePosition4.ts
+jup-perps-client-js/src/instructions/increasePositionPreSwap.ts
+jup-perps-client-js/src/instructions/increasePositionWithInternalSwap.ts
+jup-perps-client-js/src/instructions/index.ts
+jup-perps-client-js/src/instructions/init.ts
+jup-perps-client-js/src/instructions/instantCreateLimitOrder.ts
+jup-perps-client-js/src/instructions/instantCreateTpsl.ts
+jup-perps-client-js/src/instructions/instantDecreasePosition.ts
+jup-perps-client-js/src/instructions/instantIncreasePosition.ts
+jup-perps-client-js/src/instructions/instantUpdateLimitOrder.ts
+jup-perps-client-js/src/instructions/instantUpdateTpsl.ts
+jup-perps-client-js/src/instructions/liquidateFullPosition4.ts
+jup-perps-client-js/src/instructions/operatorSetCustodyConfig.ts
+jup-perps-client-js/src/instructions/operatorSetPoolConfig.ts
+jup-perps-client-js/src/instructions/reallocCustody.ts
+jup-perps-client-js/src/instructions/reallocPool.ts
+jup-perps-client-js/src/instructions/refreshAssetsUnderManagement.ts
+jup-perps-client-js/src/instructions/removeLiquidity2.ts
+jup-perps-client-js/src/instructions/setCustodyConfig.ts
+jup-perps-client-js/src/instructions/setPerpetualsConfig.ts
+jup-perps-client-js/src/instructions/setPoolConfig.ts
+jup-perps-client-js/src/instructions/setTestTime.ts
+jup-perps-client-js/src/instructions/setTokenLedger.ts
+jup-perps-client-js/src/instructions/swap2.ts
+jup-perps-client-js/src/instructions/testInit.ts
+jup-perps-client-js/src/instructions/transferAdmin.ts
+jup-perps-client-js/src/instructions/updateDecreasePositionRequest2.ts
+jup-perps-client-js/src/instructions/withdrawFees2.ts
+jup-perps-client-js/src/programs/index.ts
+jup-perps-client-js/src/programs/perpetuals.ts
+jup-perps-client-js/src/shared/index.ts
+jup-perps-client-js/src/types/amountAndFee.ts
+jup-perps-client-js/src/types/assets.ts
+jup-perps-client-js/src/types/fees.ts
+jup-perps-client-js/src/types/fundingRateState.ts
+jup-perps-client-js/src/types/index.ts
+jup-perps-client-js/src/types/jumpRateState.ts
+jup-perps-client-js/src/types/limit.ts
+jup-perps-client-js/src/types/oracleParams.ts
+jup-perps-client-js/src/types/oraclePrice.ts
+jup-perps-client-js/src/types/oracleType.ts
+jup-perps-client-js/src/types/permissions.ts
+jup-perps-client-js/src/types/poolApr.ts
+jup-perps-client-js/src/types/priceCalcMode.ts
+jup-perps-client-js/src/types/priceImpactBuffer.ts
+jup-perps-client-js/src/types/priceImpactMechanism.ts
+jup-perps-client-js/src/types/priceStaleTolerance.ts
+jup-perps-client-js/src/types/pricingParams.ts
+jup-perps-client-js/src/types/requestChange.ts
+jup-perps-client-js/src/types/requestType.ts
+jup-perps-client-js/src/types/side.ts
+jup-perps-client-js/src/types/tradePoolType.ts
+jup-perps-client-js/tsconfig.json
+package.json
+src/accounts/index.ts
+src/actions/monitor.ts
+src/actions/position.ts
+src/config/index.ts
+src/index.ts
+src/utils/math.ts
+src/utils/pyth.ts
+src/utils/retry.ts
+src/utils/transactions.ts
+src/utils/types.ts
+tsconfig.json
+
+[33mcommit ae8334ffa4d8af290b794c8cf9cbb7f96a600e45[m[33m ([m[1;31morigin/feat/jupjab-phase3-core-trading[m[33m)[m
+Author: cto-new[bot] <140088366+cto-new[bot]@users.noreply.github.com>
+Date:   Mon Jan 5 08:32:06 2026 +0000
+
+    feat(phase3-core-trading): implement Phase 3 core trading logic and account resolution
+
+.env.example
+src/accounts/index.ts
+src/actions/monitor.ts
+src/actions/position.ts
+src/config/index.ts
+src/index.ts
+src/utils/pyth.ts
+src/utils/retry.ts
+src/utils/transactions.ts
+
+[33mcommit 6b63add98236144154addf7e1bed9ea3910796f0[m
+Merge: 7fc14bd b4e25c2
+Author: cto-new[bot] <140088366+cto-new[bot]@users.noreply.github.com>
+Date:   Mon Jan 5 08:09:26 2026 +0000
+
+    Merge pull request #2 from emelleme/feat-jup-perps-bot-phase1-2-bun-init-sdk
+    
+    Bootstrap Bun project and integrate Jupiter Perps client SDK
+
+[33mcommit b4e25c2d03c26fb784ec36da0ea3aa8476baeb1b[m[33m ([m[1;31morigin/feat-jup-perps-bot-phase1-2-bun-init-sdk[m[33m)[m
+Author: cto-new[bot] <140088366+cto-new[bot]@users.noreply.github.com>
+Date:   Sat Jan 3 22:18:16 2026 +0000
+
+    feat(jupiter-perps-bot): bootstrap Bun project and integrate Jupiter Perps client SDK
+    
+    Bootstrap Bun project and integrate the generated SDK, scaffolding a modular TypeScript architecture ready for Phase 3 expansion.
+    
+    - Adds /src structure (config, accounts, actions, utils) and integrates the generated jup-perps-client-js SDK
+    - Adds environment template (.env.example), Bunfig.toml, tsconfig.json, README, and updated package.json
+    - Enables TypeScript strict mode for improved type safety
+    - Lays groundwork for Phase 3 trading logic (openPosition, closePosition, limit orders)
+    
+    No breaking changes.
+
+.env.example
+.gitignore
+PHASE2_COMPLETION.md
+README.md
+bun.lock
+bunfig.toml
+jup-perps-client-js/.npmignore
+jup-perps-client-js/CHANGELOG.md
+jup-perps-client-js/LICENSE
+jup-perps-client-js/README.md
+jup-perps-client-js/example.ts
+jup-perps-client-js/package.json
+jup-perps-client-js/src/accounts/custody.ts
+jup-perps-client-js/src/accounts/index.ts
+jup-perps-client-js/src/accounts/perpetuals.ts
+jup-perps-client-js/src/accounts/pool.ts
+jup-perps-client-js/src/accounts/position.ts
+jup-perps-client-js/src/accounts/positionRequest.ts
+jup-perps-client-js/src/accounts/tokenLedger.ts
+jup-perps-client-js/src/errors/index.ts
+jup-perps-client-js/src/errors/perpetuals.ts
+jup-perps-client-js/src/index.ts
+jup-perps-client-js/src/instructions/addCustody.ts
+jup-perps-client-js/src/instructions/addLiquidity2.ts
+jup-perps-client-js/src/instructions/addPool.ts
+jup-perps-client-js/src/instructions/closePositionRequest.ts
+jup-perps-client-js/src/instructions/createDecreasePositionMarketRequest.ts
+jup-perps-client-js/src/instructions/createDecreasePositionRequest2.ts
+jup-perps-client-js/src/instructions/createIncreasePositionMarketRequest.ts
+jup-perps-client-js/src/instructions/createTokenLedger.ts
+jup-perps-client-js/src/instructions/createTokenMetadata.ts
+jup-perps-client-js/src/instructions/decreasePosition4.ts
+jup-perps-client-js/src/instructions/decreasePositionWithInternalSwap.ts
+jup-perps-client-js/src/instructions/getAddLiquidityAmountAndFee2.ts
+jup-perps-client-js/src/instructions/getAssetsUnderManagement2.ts
+jup-perps-client-js/src/instructions/getRemoveLiquidityAmountAndFee2.ts
+jup-perps-client-js/src/instructions/increasePosition4.ts
+jup-perps-client-js/src/instructions/increasePositionPreSwap.ts
+jup-perps-client-js/src/instructions/increasePositionWithInternalSwap.ts
+jup-perps-client-js/src/instructions/index.ts
+jup-perps-client-js/src/instructions/init.ts
+jup-perps-client-js/src/instructions/instantCreateLimitOrder.ts
+jup-perps-client-js/src/instructions/instantCreateTpsl.ts
+jup-perps-client-js/src/instructions/instantDecreasePosition.ts
+jup-perps-client-js/src/instructions/instantIncreasePosition.ts
+jup-perps-client-js/src/instructions/instantUpdateLimitOrder.ts
+jup-perps-client-js/src/instructions/instantUpdateTpsl.ts
+jup-perps-client-js/src/instructions/liquidateFullPosition4.ts
+jup-perps-client-js/src/instructions/operatorSetCustodyConfig.ts
+jup-perps-client-js/src/instructions/operatorSetPoolConfig.ts
+jup-perps-client-js/src/instructions/reallocCustody.ts
+jup-perps-client-js/src/instructions/reallocPool.ts
+jup-perps-client-js/src/instructions/refreshAssetsUnderManagement.ts
+jup-perps-client-js/src/instructions/removeLiquidity2.ts
+jup-perps-client-js/src/instructions/setCustodyConfig.ts
+jup-perps-client-js/src/instructions/setPerpetualsConfig.ts
+jup-perps-client-js/src/instructions/setPoolConfig.ts
+jup-perps-client-js/src/instructions/setTestTime.ts
+jup-perps-client-js/src/instructions/setTokenLedger.ts
+jup-perps-client-js/src/instructions/swap2.ts
+jup-perps-client-js/src/instructions/testInit.ts
+jup-perps-client-js/src/instructions/transferAdmin.ts
+jup-perps-client-js/src/instructions/updateDecreasePositionRequest2.ts
+jup-perps-client-js/src/instructions/withdrawFees2.ts
+jup-perps-client-js/src/programs/index.ts
+jup-perps-client-js/src/programs/perpetuals.ts
+jup-perps-client-js/src/shared/index.ts
+jup-perps-client-js/src/types/amountAndFee.ts
+jup-perps-client-js/src/types/assets.ts
+jup-perps-client-js/src/types/fees.ts
+jup-perps-client-js/src/types/fundingRateState.ts
+jup-perps-client-js/src/types/index.ts
+jup-perps-client-js/src/types/jumpRateState.ts
+jup-perps-client-js/src/types/limit.ts
+jup-perps-client-js/src/types/oracleParams.ts
+jup-perps-client-js/src/types/oraclePrice.ts
+jup-perps-client-js/src/types/oracleType.ts
+jup-perps-client-js/src/types/permissions.ts
+jup-perps-client-js/src/types/poolApr.ts
+jup-perps-client-js/src/types/priceCalcMode.ts
+jup-perps-client-js/src/types/priceImpactBuffer.ts
+jup-perps-client-js/src/types/priceImpactMechanism.ts
+jup-perps-client-js/src/types/priceStaleTolerance.ts
+jup-perps-client-js/src/types/pricingParams.ts
+jup-perps-client-js/src/types/requestChange.ts
+jup-perps-client-js/src/types/requestType.ts
+jup-perps-client-js/src/types/side.ts
+jup-perps-client-js/src/types/tradePoolType.ts
+jup-perps-client-js/tsconfig.json
+package.json
+src/accounts/index.ts
+src/actions/position.ts
+src/config/index.ts
+src/index.ts
+src/utils/math.ts
+src/utils/types.ts
+tsconfig.json
+
+[33mcommit 7fc14bd534067f95f54ed2bcbf81aba6ec37727e[m
+Author: toby <lloyd@emelle.me>
+Date:   Sat Jan 3 16:32:30 2026 -0500
+
+    plan
+
+PLAN.md
+
+[33mcommit 8327814cfa27fafd10dd708ecf474116d1f88d14[m[33m ([m[1;31morigin/docs/jupjab-readme-comprehensive[m[33m)[m
+Author: cto-new[bot] <140088366+cto-new[bot]@users.noreply.github.com>
+Date:   Sat Jan 3 04:02:28 2026 +0000
+
+    docs(jupjab): add comprehensive README documenting architecture, tech stack, and roadmap
+
+.gitignore
+README.md
+
+[33mcommit 0c28c36611ca236e99f8606672b749e207e65b02[m
+Author: cto-new[bot] <140088366+cto-new[bot]@users.noreply.github.com>
+Date:   Sat Jan 3 04:01:28 2026 +0000
+
+    Initial commit
